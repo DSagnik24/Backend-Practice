@@ -1,5 +1,6 @@
 package com.sagnik.NewBackend_Practice.company;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sagnik.NewBackend_Practice.Job.Job;
 import jakarta.persistence.*;
 
@@ -13,7 +14,8 @@ public class Company {
     private String name;
     private String description;
 
-    @OneToMany
+    @JsonIgnore
+    @OneToMany(mappedBy = "company")
     private List<Job> jobs;
 
     //private List<Review> reviews;

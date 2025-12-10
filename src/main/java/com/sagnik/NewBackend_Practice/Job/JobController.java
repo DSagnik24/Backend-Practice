@@ -1,5 +1,6 @@
 package com.sagnik.NewBackend_Practice.Job;
 
+import com.sagnik.NewBackend_Practice.company.Company;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,8 @@ public class JobController {
     @PostMapping
     public ResponseEntity<String> createJob(@RequestBody Job job){
         jobService.add(job);
+        Company c = job.getCompany();
+
         return new ResponseEntity<>("Job Created",HttpStatus.CREATED);
     }
     @DeleteMapping("/{id}")
