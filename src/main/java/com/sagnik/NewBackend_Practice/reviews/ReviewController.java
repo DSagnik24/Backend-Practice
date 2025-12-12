@@ -14,15 +14,20 @@ public class ReviewController {
     public ReviewController(ReviewService reviewService) {
         this.reviewService = reviewService;
     }
-    @GetMapping
-    public List<Review> getAllReviews(){
-        return reviewService.getAllReviews();
+    @GetMapping("/reviews")
+    public ResponseEntity<List<Review>> getAllReviews(@PathVariable Long companyId){
+        return new ResponseEntity<>(reviewService.getAllReviews(companyId),HttpStatus.OK);
     }
-    @PostMapping
-    public ResponseEntity<String> addReview(@RequestBody Review review){
-        reviewService.createReview(review);
-        return new ResponseEntity<>("Review Created Successfully", HttpStatus.CREATED);
+    @PostMapping("/reviews")
+    public ResponseEntity<String> addReview(@RequestBody Review review,@PathVariable Long companyId){
+        boolean isReviewed = reviewService.addReview(companyId,review);
+        if(isReviewed){
+            return new ResponseEntity<>("Review added Successfully", HttpStatus.CREATED);
+        }else{
+            return new ResponseEntity<>("Review not added Successfully", HttpStatus.NOT_FOUND);
+        }
     }
+
     @PostMapping("/{Id}")
     public ResponseEntity<String> updateReview(@RequestBody Review review, @PathVariable Long Id){
         reviewService.updateReviews(review,Id);
@@ -37,13 +42,11 @@ public class ReviewController {
             return new ResponseEntity<>("Review Not Deleted",HttpStatus.NOT_FOUND);
         }
     }
-    @GetMapping("/{Id}")
-    public ResponseEntity<Object> getReviewById(@PathVariable Long Id){
-        Object isFetched = reviewService.getReviewById(Id);
-        if(isFetched != null){
-            return new ResponseEntity<>(isFetched,HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+
+    @GetMapping("/reviews/{reviewId}")
+    public ResponseEntity<Review> getReviewById(@PathVariable Long companyId,
+                                                @PathVariable Long reviewId){
+        return new ResponseEntity<>(reviewService.getReviewById(companyId,reviewId),HttpStatus.OK);
+
     }
 }

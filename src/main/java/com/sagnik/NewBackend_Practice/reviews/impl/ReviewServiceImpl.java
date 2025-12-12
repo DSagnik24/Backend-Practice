@@ -1,62 +1,60 @@
 package com.sagnik.NewBackend_Practice.reviews.impl;
 
+import com.sagnik.NewBackend_Practice.company.Company;
+import com.sagnik.NewBackend_Practice.company.CompanyService;
 import com.sagnik.NewBackend_Practice.reviews.Review;
 import com.sagnik.NewBackend_Practice.reviews.ReviewRepository;
 import com.sagnik.NewBackend_Practice.reviews.ReviewService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ReviewServiceImpl implements ReviewService {
-    private ReviewRepository reviewRepository;
+    private final ReviewRepository reviewRepository;
+    private final CompanyService companyService;
 
-    public ReviewServiceImpl(ReviewRepository reviewRepository) {
+    public ReviewServiceImpl(ReviewRepository reviewRepository,CompanyService companyService) {
         this.reviewRepository = reviewRepository;
+        this.companyService = companyService;
     }
 
+
     @Override
-    public List<Review> getAllReviews() {
-        return reviewRepository.findAll();
+    public List<Review> getAllReviews(Long companyId) {
+        List<Review> reviews = reviewRepository.findAll();
+        return List.of();
     }
 
     @Override
     public boolean updateReviews(Review review, Long Id) {
-        Optional<Review> reviewOptional = reviewRepository.findById(Id);
+        return false;
+    }
 
-        if(reviewOptional.isPresent()){
-            Review reviewToUpdate = reviewOptional.get();
-            reviewToUpdate.setId(reviewToUpdate.getId());
-            reviewToUpdate.setName(reviewToUpdate.getName());
-            reviewToUpdate.setDescription(reviewToUpdate.getDescription());
-
-            reviewRepository.save(reviewToUpdate);
-
+    @Override
+    public boolean addReview(Long id, Review review) {
+        Company company = companyService.getCompanyById(id);
+        if (company != null){
+            review.setCompany(company);
+            reviewRepository.save(review);
             return true;
         }else{
             return false;
         }
-
-    }
-
-    @Override
-    public void createReview(Review review) {
-        reviewRepository.save(review);
     }
 
     @Override
     public boolean deleteReviewById(Long Id) {
-        if(reviewRepository.existsById(Id)){
-            reviewRepository.deleteById(Id);
-            return true;
-        }else{
-            return false;
-        }
+        return false;
     }
 
     @Override
-    public Object getReviewById(Long id) {
-        return reviewRepository.findById(id).orElse(null);
+    public Review getReviewById(Long companyId, Long reviewId) {
+        List<Review> reviews = reviewRepository.findByCompanyId(companyId);
+        return reviews.stream()
+                .filter(review -> review.getId().equals(reviewId))
+                        .findFirst().orElse(null);
     }
+
+
 }

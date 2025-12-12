@@ -1,20 +1,33 @@
 package com.sagnik.NewBackend_Practice.reviews;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import org.springframework.boot.autoconfigure.web.WebProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sagnik.NewBackend_Practice.company.Company;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
-    private String name;
+    private String title;
     private String description;
+    private double rating;
+
+    @JsonIgnore
+    @ManyToOne
+    private Company company;
 
     public Review() {
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
     }
 
     public Long getId() {
@@ -25,12 +38,12 @@ public class Review {
         Id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
@@ -39,5 +52,13 @@ public class Review {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
     }
 }
