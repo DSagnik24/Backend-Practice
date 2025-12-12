@@ -27,9 +27,17 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public boolean updateReviews(Review review, Long Id) {
-        return false;
+    public boolean updateReviews(Review updatedReview, Long reviewId, Long companyId) {
+        if(companyService.getCompanyById(companyId)!= null){
+            updatedReview.setCompany(companyService.getCompanyById(companyId));
+            updatedReview.setId(reviewId);
+            reviewRepository.save(updatedReview);
+            return true;
+        }else{
+            return false;
+        }
     }
+
 
     @Override
     public boolean addReview(Long id, Review review) {
@@ -44,9 +52,16 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public boolean deleteReviewById(Long Id) {
+    public boolean deleteReviewById(Long reviewId, Long companyId) {
+        if(companyService.getCompanyById(companyId) != null &&
+        reviewRepository.existsById(reviewId)){
+            Review review = reviewRepository.findById(reviewId).orElse(null);
+            Company company = review.getCompany();
+            company.getReviews().remove(review);
+        }
         return false;
     }
+
 
     @Override
     public Review getReviewById(Long companyId, Long reviewId) {
