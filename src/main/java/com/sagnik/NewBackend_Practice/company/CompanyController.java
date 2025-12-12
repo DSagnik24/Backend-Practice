@@ -20,7 +20,7 @@ public class CompanyController {
     public List<Company> getAllCompanies(){
         return companyService.getAllCompanies();
     }
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<String> updateCompany(@PathVariable Long id, @RequestBody Company company){
         companyService.updateCompany(company,id);
         return new ResponseEntity<>("Company updated Successfully",HttpStatus.OK);
@@ -30,7 +30,7 @@ public class CompanyController {
         companyService.createCompany(company);
         return new ResponseEntity<>("Company created Successfully",HttpStatus.CREATED);
     }
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteCompanyById(@PathVariable Long id){
         boolean isDeleted = companyService.deleteCompanyById(id);
         if(isDeleted){
@@ -38,5 +38,15 @@ public class CompanyController {
         }else{
             return new ResponseEntity<>("Company Not Deleted",HttpStatus.NOT_FOUND);
         }
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<Company> getCompanyById(@PathVariable Long Id){
+        Company isFetched = companyService.getCompanyById(Id);
+        if(isFetched != null){
+            return new ResponseEntity<>(isFetched ,HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
     }
 }
