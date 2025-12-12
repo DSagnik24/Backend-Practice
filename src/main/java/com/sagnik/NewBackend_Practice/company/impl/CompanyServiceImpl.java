@@ -1,6 +1,5 @@
-package com.sagnik.NewBackend_Practice.impl;
+package com.sagnik.NewBackend_Practice.company.impl;
 
-import com.sagnik.NewBackend_Practice.Job.Job;
 import com.sagnik.NewBackend_Practice.company.Company;
 import com.sagnik.NewBackend_Practice.company.CompanyRepository;
 import com.sagnik.NewBackend_Practice.company.CompanyService;
@@ -57,6 +56,7 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public Company getCompanyById(Long id) {
+
         return companyRepository.findById(id).orElse(null);
     }
 }

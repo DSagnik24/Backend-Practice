@@ -1,4 +1,4 @@
-package com.sagnik.NewBackend_Practice.impl;
+package com.sagnik.NewBackend_Practice.Job.impl;
 
 import com.sagnik.NewBackend_Practice.Job.Job;
 import com.sagnik.NewBackend_Practice.Job.JobRepository;
