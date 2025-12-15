@@ -154,7 +154,7 @@ mvnw.cmd spring-boot:run
 ### 3️⃣ Access the application
 
 ```
-http://localhost:8080
+http://localhost:8083
 ```
 
 ---
@@ -198,3 +198,4 @@ Backend Developer | Java | Spring Boot
 ---
 
 This project is for **learning and practice purposes**. Feel free to fork and extend it.
+
