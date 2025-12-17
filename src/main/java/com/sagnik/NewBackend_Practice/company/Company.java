@@ -14,6 +14,7 @@ public class Company {
     private Long id;
     private String name;
     private String description;
+    private String rating;
 
     @JsonIgnore
     @OneToMany(mappedBy = "company")
